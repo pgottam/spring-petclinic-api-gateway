@@ -1,0 +1,11 @@
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/ApiGatewayDiscoveryConfig.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/PetDetails.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/VisitDetails.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/boundary/web/InsecurityConfiguration.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/Visits.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/application/CustomersServiceClient.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/boundary/web/ApiGatewayController.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/OwnerDetails.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/PetType.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/application/VisitsServiceClient.java
+/Users/praveeng/Downloads/tbs/tbs-demo/spring-petclinic-cloud/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/ApiGatewayApplication.java

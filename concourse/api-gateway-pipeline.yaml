@@ -1,0 +1,83 @@
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: https://github.com/pgottam/spring-petclinic-api-gateway.git
+    branch: master
+
+jobs:
+- name: continuous-integration
+  plan:
+    - get: source-code
+      trigger: true
+    - task: compile-and-test
+      output_mapping:
+        target: target
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: adoptopenjdk
+            tag: 11-jdk-hotspot
+        inputs:
+          - name: source-code
+        outputs:
+          - name: target
+        caches:
+          - path: source-code/maven
+        run:
+          path: /bin/bash
+          args:
+            - -c
+            - |
+              cd source-code
+              if [[ -d $PWD/maven && ! -d $HOME/.m2 ]]; then
+                ln -s "$PWD/maven" "$HOME/.m2"
+              fi
+              # Added -DskipTests and -Dcheckstyle.skip to speed up task for demo purpose
+              # They should not be included in a proper test pipeline
+              ./mvnw package -DskipTests -Dcheckstyle.skip
+              cp target/*.jar ../target
+    - task: update-build-service-image
+      params:
+        KUBECONFIG_JSON: ((commonSecrets.kubeconfigBuildServer))
+      input_mapping:
+        target: target
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((commonSecrets.concourseHelperImage))
+            tag: latest
+        inputs:
+          - name: target
+        run:
+          path: /bin/bash
+          args:
+            - -c
+            - |
+                docker login ((commonSecrets.harborDomain)) -u ((commonSecrets.harborUser)) -p ((commonSecrets.harborPassword))
+                echo $KUBECONFIG_JSON > kubeconfig.json
+                cat kubeconfig.json
+                export KUBECONFIG=kubeconfig.json
+                set +e
+                which kp
+                export REGISTRY_PASSWORD=admin
+                #/usr/bin/kp secret create ((petclinic.tbs.secret))  --registry harbor.pgottam-demo.live --registry-user admin
+                /usr/bin/kp image list -n ((petclinic.tbs.namespace)) | grep spring-petclinic
+                exists=$?
+                set -e
+                if [ $exists -eq 0 ]; then
+                  /usr/bin/kp image patch spring-petclinic \
+                    --namespace ((petclinic.tbs.namespace)) \
+                    --wait \
+                    --local-path target/api-gateway.jar
+                else
+                  /usr/bin/kp image create spring-petclinic \
+                    --tag ((petclinic.image)) \
+                    --namespace ((petclinic.tbs.namespace)) \
+                    --wait \
+                    --local-path target/api-gateway.jar
+                fi
